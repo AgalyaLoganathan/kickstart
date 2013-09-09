@@ -1,0 +1,67 @@
+<html>
+<head>
+ <meta charset="utf-8">
+</head>
+<body>
+<script type="text/javascript" src="http://backbonejs.org/backbone-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" > </script>
+<script type="text/javascript" src="http://underscorejs.org/underscore-min.js" > </script>
+<script type="text/template" id="welcome_template">
+ <%= "Rendered welcome template" %>
+</script>
+<script type="text/template" id="contact_template">
+ <% <table class = "contact_list">
+    	<td><%= user.name %></td>
+    	<td><%= user.age %></td>
+    	<td><%= user.conatct_number %></td>
+    </table>
+ %>
+</script>
+
+<script> 
+	var WelcomeView = Backbone.View.extend({
+	  tagName: 'div',
+	  class  : 'head',
+	  id     : 'one',	,
+	  template: _.template($("#welcome_template")).html();
+	  render : function() {
+		this.$el.html(this.template)
+	},
+	});
+	
+	var ContactView = Backbone.View.extend({
+	  el: '.conatct_list',
+	  contact_template: _.template($("#contact_temple")).html(this.model);
+	  	
+	});
+	
+	var contactView = new ContactView({model: contactModel});
+	var welcomeView = new WelcomeView;
+	
+	var ContactModel = Backbone.Model.extend({
+	 'name' : 'agalya',
+	 'age'	: 21,
+	 'contact_number' : 8056045946
+	});
+
+    var contact_model = new ContactModel;
+	
+	var Approuter = Backbone.Router.extend({
+		routes : {
+			'' : 'homeFunction' ,
+			'/:id' : 'contact'
+			
+		}	
+		});
+	
+	var router = new Approuter;
+	router.on('route:homeFunction',function() {
+	  	welcomeView.render();
+	    return false;
+	});
+	
+	Backbone.history.start();
+</script>
+
+</body>
+</html>
